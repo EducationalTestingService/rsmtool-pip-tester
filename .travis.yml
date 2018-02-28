@@ -1,27 +1,24 @@
 language: generic
 os:
-  - linux
+- linux
 notifications:
   email: false
   slack:
-    secure: '09oaAq76MSY6AN0Zh34PMYfo3K0+9LPUC5sw2UUx6f+CI6aFdKXr933n5aiwek4xm7mtSkTAxThIQsnQ5og0GuD+IYiL/6w1eth6ZuLfQ0/DLw7BOVy+UDN89Zq3K4BF6njYhM6F3YeDcbTUwM+t//kych/+MCGCfKHHOYn88cQ5sDRvpt473vgx+YwyYVULfFAhlvJdiuxu7YMUKLdOD/NpiiRgIoIUvtLy0DaBHHr/il0rRYSN1GF7qGEAB/S+RWTZU4uWtX6BEPhoDZLjgEy9DzK6VpJnNe1TxN3U0VNEmoA1JIPGDZE+aPawymvbynBlsVGZBsFiCDD1TqunLYOhZ3u5Kq/hHGCvRVYFUM5v/a+sN19Xqvwps5Jz7ySWuyfPtbCT6UWem6jyyqL1t7tuUa/Z4GaQS3naNJk3bAVsjhBct0cKIRPhXp01d0iqjAdC9h1fzEEmpvm7YmzvNhXqmjywAWcbgIEVH3ZhHMgO49ftlXiiwK57RSd7WSdRei+0ZIAw1xpFQyoQ4MZC6ZtA8OEw6gVRa1nIJkZZIqJnamue3HHbc//WgyURP/GEVzlOuSKGxDcF8R/D7exdFAIpa1viIyPBSNovP5mdRWTVREZiaBSXRXpn25S9LX9lv5oOr0L+q6WKOvwp1kQjK2HEy+3Tb+LEdrIhfOG+Md0='
+    secure: jnDlKQUMqNnUrn0qeBMQX4PH5Pw7oyAeFHJD6uZoUzXd9ybmWgYfVI0Q0lre7tEMr6BL/QSLeCVIBWqrjvx7jE32EfErIAKEgBTjvxlBUKMjBRlTOacTVD+Ty0qwJgNfEUDspkXRrVo8qdD0n1CCtrhftja7ezVcPJtEfxEPReTXtMRVgjdo3Z8HVYfwymlJjfeAn+1YB20bcJ5JQvaXRp2Z2+ZqgknGUpJS4FAJ2mDVLs/TkSbYAjleN4oTrdAyqg3jTkZUumIlBgwI4QjgDDRlMIvpHKgOvW9QbLXcTYCATB6N74YjMDFBGABGiTImIqKz9KjhoR0G72anDwmMbO7zGhwqYJ8BfF4zgl/Rf43Q4kxCcW03NQ6/E6xgSRNYA0aZKkPLBAjY6J/TBmY2X6uTEpHnSYlV8QDeojDXqdIS0SC/p7vgtlvp6CfBGsQc2gc1u1GMIb8iiy0XXhsSjl0OdOFedsBqN0cGkpGLXhjz4wLFxtxn79DBjYDEk5DeCX5b91BvfyN42tfz/6swJPZASPQmzPIw2C/5PuhhNWV5Mm6KQaGCP4AMQUPjIxldL6vGn3hOJMjNaGooECYLp8Sx+SrHxJNFIC7UEGEmxhMkFUbg0tN6gh/YXDOfzRhqMT54HlcyKjLUpjDl1nvitq59+vhLYRzywUi7pAsk06s=
 env:
-  - RSMVERSION="5.7"
-
-# run on the new Travis infrastructure
+- RSMVERSION="5.7"
 sudo: false
-
-# Install the rsmtool package
 before_install:
-  - wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-  - chmod +x miniconda.sh
-  - ./miniconda.sh -b
-  - export PATH=/home/travis/miniconda3/bin:$PATH
+- wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+- chmod +x miniconda.sh
+- "./miniconda.sh -b"
+- export PATH=/home/travis/miniconda3/bin:$PATH
 install:
-  - git clone https://github.com/EducationalTestingService/rsmtool.git ${HOME}/travis/rsmcode
-  - conda create --name rsmenv -c defaults -c conda-forge -c desilinguist python=3.6 rsmtool=${RSMVERSION} --yes
-
-# Run tests using the installed rsmtool package
+- git clone https://github.com/EducationalTestingService/rsmtool.git ${HOME}/travis/rsmcode
+- conda create --name rsmenv python=3.6 --yes
+- source activate rsmenv
+- pip install rsmtool==${RSMVERSION}
 script:
-  - source activate rsmenv
-  - TESTDIR=${HOME}/travis/rsmcode/tests nosetests --nologcapture ${HOME}/travis/rsmcode/tests
+- source activate rsmenv
+- cd ${HOME}/travis
+- TESTDIR=${HOME}/travis/rsmcode/tests nosetests --nologcapture ${HOME}/travis/rsmcode/tests
