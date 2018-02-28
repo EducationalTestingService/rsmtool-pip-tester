@@ -23,10 +23,13 @@ install:
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
   - conda info -a
-  - "conda create -y -n rsmenv -c defaults -c conda-forge -c desilinguist python=%PYTHON_VERSION% rsmtool=%RSMVERSION%"
+  - "conda create -y -n rsmenv python=%PYTHON_VERSION%"
+  - activate rsmenv
+  - "pip install rsmtool==%RSMVERSION%"
   - git clone https://github.com/EducationalTestingService/rsmtool.git c:\rsmcode
 
 test_script:
   - activate rsmenv
+  - chdir C:\
   - "set TESTDIR=C:\\rsmcode\\tests"
   - nosetests --nologcapture c:\rsmcode\tests
