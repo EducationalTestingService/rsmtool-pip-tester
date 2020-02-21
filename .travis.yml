@@ -16,8 +16,7 @@ before_install:
 install:
 - git clone https://github.com/EducationalTestingService/rsmtool.git ${HOME}/travis/rsmcode
 - conda create --name rsmenv python=3.6 --yes
-- conda activate rsmenv
-- pip install rsmtool==${RSMVERSION}
+- ${HOME}/travis/miniconda3/envs/rsmenv/bin/pip install rsmtool==${RSMVERSION}
 script:
 - source activate rsmenv
 - cd ${HOME}/travis
