@@ -18,6 +18,4 @@ install:
 - conda create --name rsmenv python=3.6 --yes
 - ${HOME}/miniconda3/envs/rsmenv/bin/pip install rsmtool==${RSMVERSION}
 script:
-- source activate rsmenv
-- cd ${HOME}
-- TESTDIR=${HOME}/rsmcode/tests nosetests --nologcapture ${HOME}/rsmcode/tests
+- TESTDIR=${HOME}/rsmcode/tests ${HOME}/miniconda3/envs/rsmenv/bin/nosetests --nologcapture ${HOME}/rsmcode/tests
