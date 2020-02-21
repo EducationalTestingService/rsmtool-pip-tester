@@ -5,6 +5,7 @@
 
 variables:
   MPLBACKEND: Agg
+  PYTHON_VERSION: 3.6
   RSMVERSION: 7.1.0
   TESTDIR: $(Build.SourcesDirectory)\rsmcode\tests
 
@@ -16,7 +17,7 @@ jobs:
 
 - job: 'RSMToolTests'
   pool:
-    vmImage: 'vs2017-win2016'
+    vmImage: 'windows-latest'
   strategy:
     parallel: 5
 
