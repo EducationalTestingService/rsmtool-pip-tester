@@ -7,6 +7,7 @@ variables:
   MPLBACKEND: Agg
   PYTHON_VERSION: 3.6
   RSMVERSION: 7.1.0
+  TESTDIR: $(Build.SourcesDirectory)\rsmcode\tests
 
 trigger: none
 pr:
@@ -26,6 +27,8 @@ jobs:
 
   - script: |
       git clone https://github.com/EducationalTestingService/rsmtool.git rsmcode
+      cd rsmcode
+      git checkout make-copy-data-files-package-friendly
     displayName: "Clone RSMTool repository"
 
   - script: |
@@ -34,9 +37,9 @@ jobs:
     displayName: "Update conda"
 
   - script: |
-      conda create --name rsmdev --yes --quiet -c conda-forge -c ets python=%PYTHON_VERSION%
+      conda create --name rsmenv --yes --quiet -c conda-forge -c ets python=%PYTHON_VERSION%
       conda init cmd.exe
-      CALL activate rsmdev
+      CALL activate rsmenv
       pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple rsmtool==%RSMVERSION%
     displayName: 'Install TestPyPI package for RSMTool'
 
@@ -45,9 +48,8 @@ jobs:
 
   - script: |
       echo $(pytestfiles)
-      CALL activate rsmdev
-      chdir $(Build.SourcesDirectory)\rsmcode
-      nosetests --with-xunit $(pytestfiles)
+      CALL activate rsmenv
+      nosetests --with-xunit -w %TESTDIR% $(pytestfiles)
     displayName: 'Run tests'
 
   - task: PublishTestResults@2
