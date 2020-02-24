@@ -1,24 +1,42 @@
 language: generic
 os:
-- linux
+  - linux
 notifications:
   email: false
   slack:
     secure: jnDlKQUMqNnUrn0qeBMQX4PH5Pw7oyAeFHJD6uZoUzXd9ybmWgYfVI0Q0lre7tEMr6BL/QSLeCVIBWqrjvx7jE32EfErIAKEgBTjvxlBUKMjBRlTOacTVD+Ty0qwJgNfEUDspkXRrVo8qdD0n1CCtrhftja7ezVcPJtEfxEPReTXtMRVgjdo3Z8HVYfwymlJjfeAn+1YB20bcJ5JQvaXRp2Z2+ZqgknGUpJS4FAJ2mDVLs/TkSbYAjleN4oTrdAyqg3jTkZUumIlBgwI4QjgDDRlMIvpHKgOvW9QbLXcTYCATB6N74YjMDFBGABGiTImIqKz9KjhoR0G72anDwmMbO7zGhwqYJ8BfF4zgl/Rf43Q4kxCcW03NQ6/E6xgSRNYA0aZKkPLBAjY6J/TBmY2X6uTEpHnSYlV8QDeojDXqdIS0SC/p7vgtlvp6CfBGsQc2gc1u1GMIb8iiy0XXhsSjl0OdOFedsBqN0cGkpGLXhjz4wLFxtxn79DBjYDEk5DeCX5b91BvfyN42tfz/6swJPZASPQmzPIw2C/5PuhhNWV5Mm6KQaGCP4AMQUPjIxldL6vGn3hOJMjNaGooECYLp8Sx+SrHxJNFIC7UEGEmxhMkFUbg0tN6gh/YXDOfzRhqMT54HlcyKjLUpjDl1nvitq59+vhLYRzywUi7pAsk06s=
 env:
-- RSMVERSION="7.1.0"
+  global:
+  - RSMVERSION="7.1.0"
+  - TESTDIR="${HOME}/rsmcode/tests"
+  matrix:
+  - TESTFILES="test_experiment_rsmtool_1.py"
+  - TESTFILES="test_comparer.py test_configuration_parser.py test_experiment_rsmtool_2.py"
+  - TESTFILES="test_analyzer.py test_experiment_rsmeval.py test_fairness_utils.py test_prmse_utils.py test_container.py test_test_utils.py"
+  - TESTFILES="test_experiment_rsmcompare.py test_experiment_rsmsummarize.py test_modeler.py test_preprocessor.py test_writer.py test_experiment_rsmtool_3.py"
+  - TESTFILES="test_experiment_rsmpredict.py test_reader.py test_reporter.py test_transformer.py test_utils.py test_experiment_rsmtool_4.py"
+
+# run on the new Travis infrastructure
 sudo: false
+
+# set up conda
 before_install:
-- wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-- chmod +x miniconda.sh
-- "./miniconda.sh -b"
-- export PATH=/home/travis/miniconda3/bin:$PATH
+  - wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+  - chmod +x miniconda.sh
+  - ./miniconda.sh -b
+  - export PATH="${HOME}/miniconda3/bin:$PATH"
+# clone just the RSMTool tests and install the RSMTool package
 install:
-- git clone https://github.com/EducationalTestingService/rsmtool.git ${HOME}/travis/rsmcode
-- conda create --name rsmenv python=3.6 --yes
-- conda activate rsmenv
-- pip install rsmtool==${RSMVERSION}
+  - mkdir ${HOME}/rsmcode
+  - cd ${HOME}/rsmcode
+  - git init
+  - git remote add -f origin https://github.com/EducationalTestingService/rsmtool.git
+  - git config core.sparsecheckout true
+  - echo "tests/*" > .git/info/sparse-checkout
+  - git pull --depth=1 origin master
+  - conda create --name rsmenv python=3.6 --yes
+  - ${HOME}/miniconda3/envs/rsmenv/bin/pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple rsmtool==${RSMVERSION}
+
+# Run tests using the installed rsmtool package
 script:
-- source activate rsmenv
-- cd ${HOME}/travis
-- TESTDIR=${HOME}/travis/rsmcode/tests nosetests --nologcapture ${HOME}/travis/rsmcode/tests
+  - ${HOME}/miniconda3/envs/rsmenv/bin/nosetests --nologcapture -w ${TESTDIR} ${TESTFILES}
