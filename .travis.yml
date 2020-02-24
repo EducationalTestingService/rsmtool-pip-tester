@@ -19,16 +19,21 @@ env:
 # run on the new Travis infrastructure
 sudo: false
 
-# install the rsmtool package
+# set up conda
 before_install:
   - wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
   - chmod +x miniconda.sh
   - ./miniconda.sh -b
   - export PATH="${HOME}/miniconda3/bin:$PATH"
+# clone just the RSMTool tests and install the RSMTool package
 install:
-  - git clone https://github.com/EducationalTestingService/rsmtool.git ${HOME}/rsmcode
+  - mkdir ${HOME}/rsmcode
   - cd ${HOME}/rsmcode
-  - git checkout make-copy-data-files-package-friendly
+  - git init
+  - git remote add -f origin https://github.com/EducationalTestingService/rsmtool.git
+  - git config core.sparsecheckout true
+  - echo "tests/*" > .git/info/sparse-checkout
+  - git pull --depth=1 origin master
   - conda create --name rsmenv python=3.6 --yes
   - ${HOME}/miniconda3/envs/rsmenv/bin/pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple rsmtool==${RSMVERSION}
 
