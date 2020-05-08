@@ -7,12 +7,13 @@ notifications:
     secure: jnDlKQUMqNnUrn0qeBMQX4PH5Pw7oyAeFHJD6uZoUzXd9ybmWgYfVI0Q0lre7tEMr6BL/QSLeCVIBWqrjvx7jE32EfErIAKEgBTjvxlBUKMjBRlTOacTVD+Ty0qwJgNfEUDspkXRrVo8qdD0n1CCtrhftja7ezVcPJtEfxEPReTXtMRVgjdo3Z8HVYfwymlJjfeAn+1YB20bcJ5JQvaXRp2Z2+ZqgknGUpJS4FAJ2mDVLs/TkSbYAjleN4oTrdAyqg3jTkZUumIlBgwI4QjgDDRlMIvpHKgOvW9QbLXcTYCATB6N74YjMDFBGABGiTImIqKz9KjhoR0G72anDwmMbO7zGhwqYJ8BfF4zgl/Rf43Q4kxCcW03NQ6/E6xgSRNYA0aZKkPLBAjY6J/TBmY2X6uTEpHnSYlV8QDeojDXqdIS0SC/p7vgtlvp6CfBGsQc2gc1u1GMIb8iiy0XXhsSjl0OdOFedsBqN0cGkpGLXhjz4wLFxtxn79DBjYDEk5DeCX5b91BvfyN42tfz/6swJPZASPQmzPIw2C/5PuhhNWV5Mm6KQaGCP4AMQUPjIxldL6vGn3hOJMjNaGooECYLp8Sx+SrHxJNFIC7UEGEmxhMkFUbg0tN6gh/YXDOfzRhqMT54HlcyKjLUpjDl1nvitq59+vhLYRzywUi7pAsk06s=
 env:
   global:
-  - RSMVERSION="7.1.0"
+  - RSMVERSION="8.0"
   - TESTDIR="${HOME}/rsmcode/tests"
+  - BINPATH="${HOME}/miniconda3/envs/rsmenv/bin"
   matrix:
   - TESTFILES="test_experiment_rsmtool_1.py"
   - TESTFILES="test_comparer.py test_configuration_parser.py test_experiment_rsmtool_2.py"
-  - TESTFILES="test_analyzer.py test_experiment_rsmeval.py test_fairness_utils.py test_prmse_utils.py test_container.py test_test_utils.py"
+  - TESTFILES="test_analyzer.py test_experiment_rsmeval.py test_fairness_utils.py test_utils_prmse.py test_container.py test_test_utils.py test_cli.py"
   - TESTFILES="test_experiment_rsmcompare.py test_experiment_rsmsummarize.py test_modeler.py test_preprocessor.py test_writer.py test_experiment_rsmtool_3.py"
   - TESTFILES="test_experiment_rsmpredict.py test_reader.py test_reporter.py test_transformer.py test_utils.py test_experiment_rsmtool_4.py"
 
