@@ -46,8 +46,8 @@ jobs:
       conda init cmd.exe
       CALL activate rsmenv
       pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple rsmtool==%RSMVERSION%
-      pip uninstall pywin32
-      conda install -c conda-force pywin32
+      pip uninstall --yes pywin32
+      conda install -c conda-force --yes pywin32
     displayName: 'Install TestPyPI package for RSMTool'
 
   - powershell: ./DistributeTests.ps1 
