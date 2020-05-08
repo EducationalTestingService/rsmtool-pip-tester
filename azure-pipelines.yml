@@ -42,7 +42,7 @@ jobs:
     displayName: "Update conda"
 
   - script: |
-      conda create --name rsmenv --yes --quiet -c conda-forge -c ets python=%PYTHON_VERSION%
+      conda create --name rsmenv --yes --quiet -c conda-forge -c defaults -c ets python=%PYTHON_VERSION%
       conda init cmd.exe
       CALL activate rsmenv
       pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple rsmtool==%RSMVERSION%
