@@ -7,7 +7,7 @@ notifications:
     secure: jnDlKQUMqNnUrn0qeBMQX4PH5Pw7oyAeFHJD6uZoUzXd9ybmWgYfVI0Q0lre7tEMr6BL/QSLeCVIBWqrjvx7jE32EfErIAKEgBTjvxlBUKMjBRlTOacTVD+Ty0qwJgNfEUDspkXRrVo8qdD0n1CCtrhftja7ezVcPJtEfxEPReTXtMRVgjdo3Z8HVYfwymlJjfeAn+1YB20bcJ5JQvaXRp2Z2+ZqgknGUpJS4FAJ2mDVLs/TkSbYAjleN4oTrdAyqg3jTkZUumIlBgwI4QjgDDRlMIvpHKgOvW9QbLXcTYCATB6N74YjMDFBGABGiTImIqKz9KjhoR0G72anDwmMbO7zGhwqYJ8BfF4zgl/Rf43Q4kxCcW03NQ6/E6xgSRNYA0aZKkPLBAjY6J/TBmY2X6uTEpHnSYlV8QDeojDXqdIS0SC/p7vgtlvp6CfBGsQc2gc1u1GMIb8iiy0XXhsSjl0OdOFedsBqN0cGkpGLXhjz4wLFxtxn79DBjYDEk5DeCX5b91BvfyN42tfz/6swJPZASPQmzPIw2C/5PuhhNWV5Mm6KQaGCP4AMQUPjIxldL6vGn3hOJMjNaGooECYLp8Sx+SrHxJNFIC7UEGEmxhMkFUbg0tN6gh/YXDOfzRhqMT54HlcyKjLUpjDl1nvitq59+vhLYRzywUi7pAsk06s=
 env:
   global:
-  - RSMVERSION="8.0.2"
+  - RSMVERSION="8.1.0"
   - TESTDIR="${HOME}/rsmcode/tests"
   - BINPATH="${HOME}/miniconda3/envs/rsmenv/bin"
   matrix:
@@ -35,7 +35,7 @@ install:
   - git config core.sparsecheckout true
   - echo "tests/*" > .git/info/sparse-checkout
   - git pull --depth=1 origin main
-  - conda create --name rsmenv python=3.6 --yes
+  - conda create --name rsmenv python=3.7 --yes
   - ${HOME}/miniconda3/envs/rsmenv/bin/pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple rsmtool==${RSMVERSION}
 
 # Run tests using the installed rsmtool package
