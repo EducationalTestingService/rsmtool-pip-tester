@@ -5,8 +5,8 @@
 
 variables:
   MPLBACKEND: Agg
-  PYTHON_VERSION: 3.8
-  RSMVERSION: 8.1.2
+  PYTHON_VERSION: 3.10
+  RSMVERSION: 9.0.0
   TESTDIR: $(Build.SourcesDirectory)\rsmcode\tests
   BINPATH: C:\Miniconda\envs\rsmenv\Scripts
 
@@ -20,7 +20,7 @@ jobs:
   pool:
     vmImage: 'windows-latest'
   strategy:
-    parallel: 5
+    parallel: 6
 
   steps:
   - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
@@ -42,15 +42,15 @@ jobs:
     displayName: "Update conda"
 
   - script: |
-      conda create --name rsmenv --yes --quiet -c conda-forge -c ets python=%PYTHON_VERSION%
+      conda create --name rsmenv --yes --quiet -c conda-forge -c ets python=%PYTHON_VERSION% nose parameterized
       conda init cmd.exe
       CALL activate rsmenv
-      pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple rsmtool==%RSMVERSION% nose parameterized
+      pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple rsmtool==%RSMVERSION%
       pip uninstall --yes pywin32
       conda install -c conda-forge --yes pywin32
     displayName: 'Install TestPyPI package for RSMTool'
 
-  - powershell: ./DistributeTests.ps1 
+  - powershell: ./DistributeTests.ps1
     displayName: 'PowerShell Script to distribute tests'
 
   - script: |
