@@ -22,7 +22,7 @@ variables:
     - echo "tests/*" > .git/info/sparse-checkout
     - git pull --depth=1 origin main
     - conda create --prefix /root/rsmenv python=${PYVERSION} --yes
-    - /root/rsmenv/bin/pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple rsmtool==${RSMVERSION} "nbclient>=0.7.1" "kiwisolver>=1.4.3" "jupyterlab_widgets>=3.0.3" "jupyter_server>=1.23" nose parameterized
+    - /root/rsmenv/bin/pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple rsmtool==${RSMVERSION} "nbclient>=0.7.1" "kiwisolver>=1.4.3" "jupyterlab_widgets>=3.0.3" "jupyter_server>=1.23" "fonttools>=4.33" "debugpy>=1.6" nose parameterized
 
   script:
     - "/root/rsmenv/bin/nosetests --nologcapture -w ${TESTDIR} ${TESTFILES}"
