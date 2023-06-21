@@ -6,7 +6,7 @@
 variables:
   MPLBACKEND: Agg
   PYTHON_VERSION: 3.10
-  RSMVERSION: 9.0.1
+  RSMVERSION: 10.0.0
   TESTDIR: $(Build.SourcesDirectory)\rsmcode\tests
   BINPATH: C:\Miniconda\envs\rsmenv\Scripts
 
@@ -45,7 +45,7 @@ jobs:
       conda create --name rsmenv --yes --quiet -c conda-forge -c ets python=%PYTHON_VERSION% nose parameterized
       conda init cmd.exe
       CALL activate rsmenv
-      pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple rsmtool==%RSMVERSION% "pandas>=1.5" "numpy>=1.23" "matplotlib>=3.6" "jupyter_server>=2.0" "notebook-shim>=0.2.0"
+      pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple rsmtool
       pip uninstall --yes pywin32
       conda install -c conda-forge --yes pywin32
     displayName: 'Install TestPyPI package for RSMTool'

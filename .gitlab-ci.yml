@@ -5,7 +5,7 @@ stages:
 
 variables:
   PYVERSION: "3.8"
-  RSMVERSION: "9.0.1"
+  RSMVERSION: "10.0.0"
   BINPATH: "/root/rsmenv/bin"
   TESTDIR: "/root/rsmcode/tests"
 
@@ -22,7 +22,7 @@ variables:
     - echo "tests/*" > .git/info/sparse-checkout
     - git pull --depth=1 origin main
     - conda create --prefix /root/rsmenv python=${PYVERSION} --yes
-    - /root/rsmenv/bin/pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple rsmtool==${RSMVERSION} "pandas>=1.5" "numpy>=1.23" "matplotlib>=3.6" "jupyter_server>=2.0" "notebook-shim>=0.2.0" nose parameterized
+    - /root/rsmenv/bin/pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple rsmtool nose parameterized
 
   script:
     - "/root/rsmenv/bin/nosetests --nologcapture -w ${TESTDIR} ${TESTFILES}"
