@@ -22,10 +22,10 @@ variables:
     - echo "tests/*" > .git/info/sparse-checkout
     - git pull --depth=1 origin main
     - conda create --prefix /root/rsmenv python=${PYVERSION} --yes
-    - /root/rsmenv/bin/pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple rsmtool nose parameterized
+    - /root/rsmenv/bin/pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple rsmtool nose2 parameterized
 
   script:
-    - "/root/rsmenv/bin/nosetests --nologcapture -w ${TESTDIR} ${TESTFILES}"
+    - "/root/rsmenv/bin/nose2 --quiet -s ${TESTDIR} ${TESTFILES}"
 
 # first set of test files
 testset1:

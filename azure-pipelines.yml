@@ -42,7 +42,7 @@ jobs:
     displayName: "Update conda"
 
   - script: |
-      conda create --name rsmenv --yes --quiet -c conda-forge -c ets python=%PYTHON_VERSION% nose parameterized
+      conda create --name rsmenv --yes --quiet -c conda-forge -c ets python=%PYTHON_VERSION% nose2 parameterized
       conda init cmd.exe
       CALL activate rsmenv
       pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple rsmtool
@@ -56,12 +56,12 @@ jobs:
   - script: |
       echo $(pytestfiles)
       CALL activate rsmenv
-      nosetests --with-xunit -w %TESTDIR% $(pytestfiles)
+      nose2 --quiet -s %TESTDIR% $(pytestfiles)
     displayName: 'Run tests'
 
   - task: PublishTestResults@2
     displayName: 'Publish Test Results'
     inputs:
-      testResultsFiles: 'nosetests.xml'
+      testResultsFiles: 'junit.xml'
       testRunTitle: 'RSMTool tests'
     condition: succeededOrFailed()
